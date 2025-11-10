@@ -1,12 +1,15 @@
 package com.example.function_demo.Excel.Processor.impl;
 
-import ai.futurefab.wise.Excel.ExcelUtils;
-import ai.futurefab.wise.Excel.FormatTemplate.ExcelTemplateEnum;
-import ai.futurefab.wise.Excel.Processor.ExcelProcessor;
-import ai.futurefab.wise.Excel.data.dto.InformRuleImportDTO;
-import ai.futurefab.wise.Excel.data.module.InformRuleImportModule;
-import ai.futurefab.wise.constant.WiseConstants;
+
+import com.example.function_demo.Excel.ExcelUtils;
+import com.example.function_demo.Excel.FormatTemplate.ExcelTemplateEnum;
+import com.example.function_demo.Excel.Processor.ExcelProcessor;
+import com.example.function_demo.Excel.data.dto.InformRuleImportDTO;
+import com.example.function_demo.Excel.data.module.InformRuleImportModule;
+import com.example.function_demo.Excel.FormatTemplate.ExcelTemplateEnum;
+import com.example.function_demo.common.conatants.SystemConstants;
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -116,7 +119,7 @@ public class InformSpecRuleExcelProcessor implements ExcelProcessor<InformRuleIm
         }
         if (!StringUtils.isEmpty(classNumber)) {
             String[] split = classNumber.split("-");
-            if (split.length == 1 && !StringUtils.equalsIgnoreCase(WiseConstants.ALL, split[0])) {
+            if (split.length == 1 && !StringUtils.equalsIgnoreCase(SystemConstants.ALL, split[0])) {
                 try {
                     Integer.parseInt(split[0]);
                 } catch (Exception e) {
@@ -322,17 +325,17 @@ public class InformSpecRuleExcelProcessor implements ExcelProcessor<InformRuleIm
             InformRuleImportModule informRuleImportModule = new InformRuleImportModule();
             informRuleImportModule.setTech(informRuleImportDTO.getTech());
             if (StringUtils.equalsIgnoreCase(informRuleImportDTO.getLoop(),"all")){
-                informRuleImportModule.setLoop(WiseConstants.ALL);
+                informRuleImportModule.setLoop(SystemConstants.ALL);
             }else{
                 informRuleImportModule.setLoop(informRuleImportDTO.getLoop());
             }
             if (StringUtils.equalsIgnoreCase(informRuleImportDTO.getLayer(),"all")){
-                informRuleImportModule.setLayer(WiseConstants.ALL);
+                informRuleImportModule.setLayer(SystemConstants.ALL);
             }else{
                 informRuleImportModule.setLayer(informRuleImportDTO.getLayer());
             }
             if (StringUtils.equalsIgnoreCase(informRuleImportDTO.getProductId(),"all")){
-                informRuleImportModule.setProductId(WiseConstants.ALL);
+                informRuleImportModule.setProductId(SystemConstants.ALL);
             }else{
                 informRuleImportModule.setProductId(informRuleImportDTO.getProductId());
             }

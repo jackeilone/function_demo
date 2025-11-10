@@ -1,12 +1,12 @@
 package com.example.function_demo.Excel;
 
-import ai.futurefab.wise.Excel.FormatTemplate.ExcelTemplateEnum;
-import ai.futurefab.wise.Excel.data.dto.DLYConfigImportDTO;
-import ai.futurefab.wise.Excel.data.dto.InformRuleImportDTO;
+
 import com.alibaba.excel.EasyExcel;
+import com.example.function_demo.Excel.data.dto.InformRuleImportDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.multipart.MultipartFile;
+import com.example.function_demo.Excel.FormatTemplate.ExcelTemplateEnum;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,9 +66,6 @@ public class ExcelUtils {
         // 根据不同的枚举类返回不同的Class
         if (ExcelTemplateEnum.INFORM_SPEC_RULE_TEMPLATE.equals(excelTemplate)) {
             return InformRuleImportDTO.class;
-        }
-        if (ExcelTemplateEnum.DEFECT_LIMIT_YIELD_CONFIG_TEMPLATE.equals(excelTemplate)) {
-            return DLYConfigImportDTO.class;
         }
         // 如果没匹配上，返回null或者抛异常
         return null;

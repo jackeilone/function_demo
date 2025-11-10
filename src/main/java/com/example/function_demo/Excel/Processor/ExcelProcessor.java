@@ -1,8 +1,10 @@
 package com.example.function_demo.Excel.Processor;
 
-import ai.futurefab.wise.Excel.ExcelUtils;
-import ai.futurefab.wise.Excel.FormatTemplate.ExcelTemplateEnum;
+
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.example.function_demo.Excel.ExcelUtils;
+import com.example.function_demo.Excel.FormatTemplate.ExcelTemplateEnum;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
@@ -53,8 +55,8 @@ public interface ExcelProcessor<T, V> {
     }
 
     /*
-    * 如果 data 是空，则下载对应的 模板，如果data 有值，则把data 填充进模板返给前端
-    * */
+     * 如果 data 是空，则下载对应的 模板，如果data 有值，则把data 填充进模板返给前端
+     * */
 
     static void downLoadExcelData(HttpServletResponse response, ExcelTemplateEnum excelTemplate, List<Object> data) throws IOException {
         String fileName = URLEncoder.encode(excelTemplate.getTemplateName() + "_" + System.currentTimeMillis() + ".xlsx", StandardCharsets.UTF_8)
@@ -66,14 +68,14 @@ public interface ExcelProcessor<T, V> {
         try (InputStream templateStream = ExcelUtils.getExcelTemplateByNo(excelTemplate);
              Workbook workbook = WorkbookFactory.create(templateStream);
              OutputStream outputStream = response.getOutputStream()) {
-             Sheet originalSheet = workbook.getSheetAt(0);
+            Sheet originalSheet = workbook.getSheetAt(0);
 
-             Workbook newWorkbook = WorkbookFactory.create(true); // 创建新的工作簿
-             Sheet newSheet = newWorkbook.createSheet("数据");
+            Workbook newWorkbook = WorkbookFactory.create(true); // 创建新的工作簿
+            Sheet newSheet = newWorkbook.createSheet("数据");
 
             if (data == null || data.isEmpty()) {
                 // 只输出模板的前几行（保留样式）
-                copyFirstNRowsToNewWorkbook(originalSheet, newSheet,excelTemplate.getDataStartRowNo());
+                copyFirstNRowsToNewWorkbook(originalSheet, newSheet, excelTemplate.getDataStartRowNo());
                 newWorkbook.write(outputStream);
                 newWorkbook.close();
                 return;
@@ -101,7 +103,7 @@ public interface ExcelProcessor<T, V> {
     /**
      * 只复制模板的前N行到新工作簿
      */
-    private static void copyFirstNRowsToNewWorkbook(Sheet originalSheet,Sheet newSheet ,int rowCount) throws IOException {
+     static void copyFirstNRowsToNewWorkbook(Sheet originalSheet, Sheet newSheet, int rowCount) throws IOException {
         // 复制前N行，保留样式
         copyRowsWithStyle(originalSheet, newSheet, 0, rowCount);
     }
@@ -109,7 +111,7 @@ public interface ExcelProcessor<T, V> {
     /**
      * 复制行并保留样式
      */
-    private static void copyRowsWithStyle(Sheet sourceSheet, Sheet targetSheet, int startRow, int endRow) {
+     static void copyRowsWithStyle(Sheet sourceSheet, Sheet targetSheet, int startRow, int endRow) {
         for (int i = startRow; i < endRow; i++) {
             Row sourceRow = sourceSheet.getRow(i);
             if (sourceRow == null) continue;
@@ -136,7 +138,7 @@ public interface ExcelProcessor<T, V> {
     /**
      * 复制单元格值
      */
-    private static void copyCellValue(Cell sourceCell, Cell targetCell) {
+     static void copyCellValue(Cell sourceCell, Cell targetCell) {
         switch (sourceCell.getCellType()) {
             case STRING:
                 targetCell.setCellValue(sourceCell.getStringCellValue());
@@ -162,7 +164,7 @@ public interface ExcelProcessor<T, V> {
     /**
      * 创建简单的数据行（使用默认样式）
      */
-    private static void createSimpleDataRow(Sheet sheet, int rowIndex, Object dto) {
+     static void createSimpleDataRow(Sheet sheet, int rowIndex, Object dto) {
         Row row = sheet.createRow(rowIndex);
         try {
             // 获取所有字段
@@ -209,21 +211,21 @@ public interface ExcelProcessor<T, V> {
         }
     }
 
-    public static Boolean stringFlagToBoolean(String flag){
-        if (StringUtils.equalsIgnoreCase(flag,"yes")){
+    public static Boolean stringFlagToBoolean(String flag) {
+        if (StringUtils.equalsIgnoreCase(flag, "yes")) {
             return true;
         }
-        if (StringUtils.equalsIgnoreCase(flag,"no")){
+        if (StringUtils.equalsIgnoreCase(flag, "no")) {
             return false;
         }
         return null;
     }
 
-    public static String booleanToString(Boolean flag){
-        if (Boolean.TRUE.equals(flag)){
+    public static String booleanToString(Boolean flag) {
+        if (Boolean.TRUE.equals(flag)) {
             return "yes";
         }
-        if (Boolean.FALSE.equals(flag)){
+        if (Boolean.FALSE.equals(flag)) {
             return "no";
         }
         return "no";
